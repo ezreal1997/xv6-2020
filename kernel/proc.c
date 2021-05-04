@@ -695,3 +695,14 @@ procdump(void)
     printf("\n");
   }
 }
+
+uint64
+procnum() {
+  uint64 n = 0;
+  for (int i = 0; i < NPROC; ++i) {
+    acquire(&proc[i].lock);
+    if (proc[i].state != UNUSED) n++;
+    release(&proc[i].lock);
+  }
+  return n;
+}
